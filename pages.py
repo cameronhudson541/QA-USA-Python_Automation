@@ -1,10 +1,8 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 
 class UrbanRoutesPage:
-    def __init__(self, driver: WebDriver):
-        # keep driver reference for all methods
+    def __init__(self, driver):
         self.driver = driver
 
     # locators
@@ -16,7 +14,7 @@ class UrbanRoutesPage:
     sms_code_field = (By.ID, "code")
     add_card_button = (By.CLASS_NAME, "add-card")
     card_number_field = (By.ID, "number")
-    card_cvv_field = (By.ID, "code")
+    card_code_field = (By.ID, "code")
     link_button = (By.CLASS_NAME, "link")
     comment_field = (By.ID, "comment")
     blanket_checkbox = (By.ID, "blanket")
@@ -27,6 +25,12 @@ class UrbanRoutesPage:
     def set_route(self, from_address, to_address):
         self.driver.find_element(*self.from_field).send_keys(from_address)
         self.driver.find_element(*self.to_field).send_keys(to_address)
+
+    def get_from_value(self):
+        return self.driver.find_element(*self.from_field).get_attribute("value")
+
+    def get_to_value(self):
+        return self.driver.find_element(*self.to_field).get_attribute("value")
 
     def click_call_taxi(self):
         self.driver.find_element(*self.call_taxi_button).click()
@@ -40,13 +44,16 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.phone_field).send_keys(phone)
         self.driver.find_element(*self.sms_code_field).send_keys(sms_code)
 
-    def add_card(self, number, cvv):
+    def add_card(self, number, code):
         self.driver.find_element(*self.add_card_button).click()
         self.driver.find_element(*self.card_number_field).send_keys(number)
-        cvv_field = self.driver.find_element(*self.card_cvv_field)
-        cvv_field.send_keys(cvv)
-        cvv_field.send_keys(Keys.TAB)  # simulate focus change
+        code_field = self.driver.find_element(*self.card_code_field)
+        code_field.send_keys(code)
+        code_field.send_keys(Keys.TAB)
         self.driver.find_element(*self.link_button).click()
+
+    def get_payment_method(self):
+        return self.driver.find_element(*self.payment_method_label).text
 
     def add_comment_for_driver(self, comment):
         self.driver.find_element(*self.comment_field).send_keys(comment)

@@ -11,15 +11,12 @@ class TestUrbanRoutes:
         # do not modify - logging enabled for phone confirmation retrieval
         capabilities = DesiredCapabilities.CHROME
         capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
-        cls.driver = webdriver.Chrome(desired_capabilities=capabilities)
+        cls.driver = webdriver.Chrome()
 
         if helpers.is_url_reachable(data.URBAN_ROUTES_URL):
             print("URBAN_ROUTES_URL reachable")
         else:
             print("URBAN_ROUTES_URL not reachable")
-
-        cls.driver.get(data.URBAN_ROUTES_URL)
-        cls.page = UrbanRoutesPage(cls.driver)
 
     def test_set_route(self):
         # Add in S8
@@ -42,8 +39,8 @@ class TestUrbanRoutes:
 
     def test_fill_card(self):
         # Add in S8
-        self.page.add_card(data.CARD_NUMBER, data.CARD_CVV)
-        payment_method = self.page.driver.find_element_by_class_name("payment-method").text
+        self.page.add_card(data.CARD_NUMBER, data.CARD_CODE)
+        payment_method = self.page.get_payment_method()
         assert payment_method == "Card"
 
     def test_comment_for_driver(self):
