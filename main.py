@@ -20,9 +20,9 @@ class TestUrbanRoutes:
 
     def test_set_route(self):
         # Add in S8
-        self.page.set_route(data.FROM_ADDRESS, data.TO_ADDRESS)
-        assert self.page.driver.find_element(*self.page.from_field).get_attribute("value") == data.FROM_ADDRESS
-        assert self.page.driver.find_element(*self.page.to_field).get_attribute("value") == data.TO_ADDRESS
+        self.page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
+        assert self.page.driver.find_element(*self.page.from_field).get_attribute("value") == data.ADDRESS_FROM
+        assert self.page.driver.find_element(*self.page.to_field).get_attribute("value") == data.ADDRESS_TO
 
     def test_select_plan(self):
         # Add in S8
