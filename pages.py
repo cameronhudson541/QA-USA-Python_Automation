@@ -11,6 +11,7 @@ class UrbanRoutesPage:
     call_taxi_button = (By.CLASS_NAME, "call-taxi")
     supportive_plan = (By.XPATH, "//div[contains(@class, 'tcard') and text()='Supportive']")
     phone_field = (By.ID, "phone")
+    click_next_button = (By.XPATH, "//button[@type='submit' and text()='Next']")
     sms_code_field = (By.ID, "code")
     add_card_button = (By.CLASS_NAME, "add-card")
     card_number_field = (By.ID, "number")
@@ -22,7 +23,7 @@ class UrbanRoutesPage:
     car_search_modal = (By.ID, "car-search")
 
     # methods
-    def set_route(self, from_address, to_address):
+    def set_route(self, address_from, address_to):
         self.driver.find_element(*self.from_field).send_keys(from_address)
         self.driver.find_element(*self.to_field).send_keys(to_address)
 
@@ -42,6 +43,7 @@ class UrbanRoutesPage:
 
     def fill_phone_number(self, phone, sms_code):
         self.driver.find_element(*self.phone_field).send_keys(phone)
+        self.driver.find_element(*self.click_next_button).click()
         self.driver.find_element(*self.sms_code_field).send_keys(sms_code)
 
     def add_card(self, number, code):
