@@ -21,8 +21,8 @@ class TestUrbanRoutes:
     def test_set_route(self):
         self.page = UrbanRoutesPage(self.driver) 
         self.page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
-        assert self.page.driver.find_element(*self.page.from_field).get_attribute("value") == data.ADDRESS_FROM
-        assert self.page.driver.find_element(*self.page.to_field).get_attribute("value") == data.ADDRESS_TO
+        assert self.page.get_from_value()==data.ADDRESS_FROM 
+        assert self.page.get_from_value()==data.ADDRESS_TO
 
     def test_select_plan(self):
         self.page = UrbanRoutesPage(self.driver)
