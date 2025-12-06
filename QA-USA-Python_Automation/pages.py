@@ -1,71 +1,76 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-
 
 class UrbanRoutesPage:
     def __init__(self, driver):
         self.driver = driver
 
-    # locators
-    from_field = (By.ID, "from")
-    to_field = (By.ID, "to")
-    call_taxi_button = (By.CLASS_NAME, "call-taxi")
-    supportive_plan = (By.XPATH, "//div[contains(@class, 'tcard') and text()='Supportive']")
-    phone_field = (By.ID, "phone")
-    sms_code_field = (By.ID, "code")
-    add_card_button = (By.CLASS_NAME, "add-card")
-    card_number_field = (By.ID, "number")
-    card_code_field = (By.ID, "code")
-    link_button = (By.CLASS_NAME, "link")
-    comment_field = (By.ID, "comment")
-    blanket_checkbox = (By.ID, "blanket")
-    ice_cream_button = (By.ID, "icecream")
-    car_search_modal = (By.ID, "car-search")
+    #locators
+    FROM_FIELD=(By.ID, "from")
+    TO_FIELD= (By.ID, "to")
+    CALL_A_TAXI_BUTTON=(By.XPATH, "//button[text()='Call a taxi']")
+    SUPPORTIVE_PLAN= (By.XPATH, "//div[text()='Supportive']")
+    PHONE_NUMBER=(By.XPATH,"//div[text()='Phone number']")
+    PHONE_NUMBER_FIELD=(By.XPATH,"//input[@id='phone']")
+    NEXT_BUTTON=(By.XPATH, "//button[text()='Next']")
+    CODE_FIELD=(By.XPATH, "//input[@id='code']")
+    CONFIRM_BUTTON=(By.XPATH, "//button[text()='Confirm']")
+    CARD_NUMBER_FIELD= (By.XPATH, "//input[@id='cardNumber']")
+    CARD_CODE_FIELD=(By.XPATH, "//input[@id='cardCode']")
+    CARD_LINK_=(By.XPATH, "//input[@id='cardLink']")
+    BLANKET_AND_HANDKERCHIEFS_CHECKBOX=(By.XPATH, "//div[text()='Blankets and Hankerchiefs']")
+    ICE_CREAM_OPTION = (By.XPATH, "//div[text()='Ice cream']")
+    DRIVER_COMMENT=(By.XPATH, "//div[text()='Driver comment']")
 
-    # methods
-    def set_route(self, from_address, to_address):
-        self.driver.find_element(*self.from_field).send_keys(from_address)
-        self.driver.find_element(*self.to_field).send_keys(to_address)
 
-    def get_from_value(self):
-        return self.driver.find_element(*self.from_field).get_attribute("value")
 
-    def get_to_value(self):
-        return self.driver.find_element(*self.to_field).get_attribute("value")
+    def input_from_address(self, from_address):
+        self.driver.find_element(*self.FROM_FIELD).send_keys(from_address)
 
-    def click_call_taxi(self):
-        self.driver.find_element(*self.call_taxi_button).click()
+    def input_to_address(self, to_address):
+        self.driver.find_element(*self.TO_FIELD).send_keys(to_address)
+
+    def get_from_address(self, from_address):
+        return self.driver.find_element(*self.FROM_FIELD).get_attribute("value")
+
+    def get_to_address(self, to_address):
+      return self.driver.find_element(*self.TO_FIELD).get_attribute("value")
+
+    def call_a_taxi_button(self):
+        self.driver.find_element(*self.CALL_A_TAXI_BUTTON).click()
 
     def select_supportive_plan(self):
-        plan = self.driver.find_element(*self.supportive_plan)
-        if "active" not in plan.get_attribute("class"):
-            plan.click()
-        self.driver.find_element(*self.phone_field).send_keys(phone)
-        self.driver.find_element(*self.sms_code_field).send_keys(sms_code)
+        self.driver.find_element(*self.SUPPORTIVE_PLAN).click()
 
-    def add_card(self, number, code):
-        self.driver.find_element(*self.add_card_button).click()
-        self.driver.find_element(*self.card_number_field).send_keys(number)
-        code_field = self.driver.find_element(*self.card_code_field)
-        code_field.send_keys(code)
-        code_field.send_keys(Keys.TAB)
-        self.driver.find_element(*self.link_button).click()
+    def fill_phone_number(self):
+        self.driver.find_element(*self.PHONE_NUMBER).click()
 
-    def get_payment_method(self):
-        return self.driver.find_element(*self.payment_method_label).text
+    def write_phone_number(self, phone):
+        self.driver.find_element(*self.PHONE_NUMBER_FIELD).send_keys(phone)
 
-    def add_comment_for_driver(self, comment):
-        self.driver.find_element(*self.comment_field).send_keys(comment)
+    def click_next(self):
+        self.driver.find_element(*self.NEXT_BUTTON).click()
 
-    def order_blanket_and_handkerchiefs(self):
-        checkbox = self.driver.find_element(*self.blanket_checkbox)
-        checkbox.click()
-        return checkbox.get_property("checked")
+    def write_code(self, code):
+        self.driver.find_element(*self.CODE_FIELD).send_keys(code)
 
-    def order_ice_creams(self, count=2):
-        for i in range(count):
-            self.driver.find_element(*self.ice_cream_button).click()
-        return self.driver.find_element(By.ID, "icecream-count").text
+    def click_confirm(self):
+        self.driver.find_element(*self.CONFIRM_BUTTON).click()
 
-    def car_search_modal_displayed(self):
-        return self.driver.find_element(*self.car_search_modal).is_displayed()
+    def get_call_a_taxi_button(self):
+        return self.driver.find_element(*self.CALL_A_TAXI_BUTTON).text
+
+    def get_from_address(self, from_address):
+        return self.driver.find_element(*self.FROM_FIELD).get_attribute("value")
+
+    def get_to_address(self, to_address):
+        return self.driver.find_element(*self.TO_FIELD).get_attribute("value")
+
+    def get_ice_cream(self):
+        return self.driver.find_element(*self.ICE_CREAM_OPTION).text
+
+    def get_driver_comment(self):
+        return self.driver.find_element(*self.DRIVER_COMMENT).text
+
+    def test_car_search_model_appears(self):
+        modal = self.driver.find_element(*self.car_search_modal)
+        return modal.is_displayed()
