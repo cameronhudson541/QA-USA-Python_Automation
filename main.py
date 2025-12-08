@@ -31,7 +31,7 @@ class TestUrbanRoutes:
         page.input_to_address(data.ADDRESS_TO)
         page.call_a_taxi_button()
         page.select_supportive_plan()
-        assert page.select_supportive_plan() == True
+        assert page.is_supportive_selected() == True
 
 
     def test_fill_phone_number(self):
@@ -41,7 +41,6 @@ class TestUrbanRoutes:
         page.input_to_address(data.ADDRESS_TO)
         page.call_a_taxi_button()
         page.fill_phone_number()
-        page.select_supportive_plan()
         page.write_phone_number(data.PHONE_NUMBER)
         page.click_next()
         page.write_code(helpers.retrieve_phone_code(self.driver))
@@ -60,8 +59,7 @@ class TestUrbanRoutes:
         page.fill_card_number()
         page.fill_card_code()
         page.click_link()
-        assert page.get_payment_method_displayed() == data.CARD_NUMBER
-
+        assert page.get_payment_method_displayed() == 'Card'
 
     def test_comment_for_driver(self):
         self.driver.get(data.URBAN_ROUTES_URL)
