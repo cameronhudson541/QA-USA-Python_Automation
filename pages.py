@@ -1,5 +1,8 @@
 from selenium.webdriver.common.by import By
 import data
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
 
 class UrbanRoutesPage:
     def __init__(self, driver):
@@ -11,21 +14,25 @@ class UrbanRoutesPage:
     CALL_A_TAXI_BUTTON=(By.XPATH, "//button[text()='Call a taxi']")
     SUPPORTIVE_PLAN= (By.XPATH, "//div[text()='Supportive']")
     PHONE_NUMBER=(By.XPATH,"//div[text()='Phone number']")
-    PHONE_NUMBER_BUTTON=(By.CSS_SELECTOR, "button.phone-number")
+    PHONE_NUMBER_BUTTON=(By.CSS_SELECTOR, "div.np-text")
     PHONE_NUMBER_FIELD=(By.XPATH,"//input[@id='phone']")
     NEXT_BUTTON=(By.XPATH, "//button[text()='Next']")
     CODE_FIELD=(By.XPATH, "//input[@id='code']")
     CONFIRM_BUTTON=(By.XPATH, "//button[text()='Confirm']")
-    CARD_NUMBER_FIELD= (By.XPATH, "//input[@id='cardNumber']")
-    CARD_CODE_FIELD=(By.XPATH, "//input[@id='cardCode']")
-    CARD_LINK_=(By.XPATH, "//input[@id='cardLink']")
-    BLANKET_AND_HANDKERCHIEFS_CHECKBOX=(By.XPATH, "//div[text()='Blankets and Hankerchiefs']")
-    ICE_CREAM_OPTION = (By.XPATH, "//div[text()='Ice cream']")
-    ICE_CREAM_ORDER_BUTTON = (By.XPATH, "//button[text()='Order']")
+    CARD_NUMBER_FIELD= (By.XPATH, "//input[@id='number']")
+    CARD_CODE_FIELD = (By.XPATH, "//input[@id='code' and @class='card-input']")
+    CARD_LINK_=(By.XPATH, "//button[text()='Link']")
+    BLANKET_AND_HANDKERCHIEFS_CHECKBOX=(By.XPATH, "//input[@class='switch-input']")
+    ICE_CREAM_OPTION = (By.XPATH, "//div[@class='counter-value']")
+    ICE_CREAM_BUTTON = (By.XPATH, "//div[@class='counter-plus']")
     DRIVER_COMMENT_FIELD = (By.XPATH, "//input[@id='comment']")
-    PAYMENT_METHOD_BUTTON = (By.XPATH, "//div[text()='Payment method']")
-    ADD_CARD_BUTTON = (By.XPATH, "//div[text()='Add card']")
+    PAYMENT_METHOD_BUTTON = (By.XPATH, "//div[@class='pp-value-text']")
+    ADD_CARD_BUTTON = (By.CLASS_NAME, "pp-plus")
     CAR_SEARCH_MODAL = (By.XPATH, "//div[text()='Car search']")
+    ACTIVE_PLAN_TITLE = (By.CSS_SELECTOR, ".tcard.active .tcard-title")
+    BLANKET_AND_HANDKERCHIEFS_BUTTON = (By.CLASS_NAME, 'switch')
+    ORDER_BUTTON = (By.CLASS_NAME, 'smart-button')
+
 
 
     def input_from_address(self, from_address):
@@ -41,10 +48,15 @@ class UrbanRoutesPage:
         return self.driver.find_element(*self.TO_FIELD).get_attribute("value")
 
     def call_a_taxi_button(self):
-        self.driver.find_element(*self.CALL_A_TAXI_BUTTON).click()
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(self.CALL_A_TAXI_BUTTON)).click()
 
     def select_supportive_plan(self):
         self.driver.find_element(*self.SUPPORTIVE_PLAN).click()
+
+    def is_supportive_selected(self):
+        def is_supportive_selected(self):
+            active_title = self.driver.find_element(*self.ACTIVE_PLAN_TITLE).text
+            return "Supportive" == active_title
 
     def fill_phone_number(self):
         self.driver.find_element(*self.PHONE_NUMBER).click()
@@ -86,10 +98,10 @@ class UrbanRoutesPage:
         return self.driver.find_element(*self.CALL_A_TAXI_BUTTON).text
 
     def order_ice_creams(self):
-        self.driver.find_element(*self.ICE_CREAM_OPTION).click()
+        self.driver.find_element(*self.ICE_CREAM_BUTTON).click()
 
     def click_order_button(self):
-        self.driver.find_element(*self.ICE_CREAM_ORDER_BUTTON).click()
+        self.driver.find_element(*self.ORDER_BUTTON).click()
 
     def get_ice_cream(self):
         return self.driver.find_element(*self.ICE_CREAM_OPTION).text
@@ -98,7 +110,7 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_CHECKBOX).click()
 
     def is_blanket_and_handkerchiefs_selected(self):
-        checkbox = self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_CHECKBOX)
+        checkbox = self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_BUTTON).click()
         return checkbox.is_selected()
 
     def fill_driver_comment(self):
