@@ -54,7 +54,6 @@ class UrbanRoutesPage:
         self.driver.find_element(*self.SUPPORTIVE_PLAN).click()
 
     def is_supportive_selected(self):
-        def is_supportive_selected(self):
             active_title = self.driver.find_element(*self.ACTIVE_PLAN_TITLE).text
             return "Supportive" == active_title
 
@@ -107,10 +106,10 @@ class UrbanRoutesPage:
         return self.driver.find_element(*self.ICE_CREAM_OPTION).text
 
     def click_blanket_and_handkerchiefs(self):
-        self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_CHECKBOX).click()
+        self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_BUTTON).click()
 
     def is_blanket_and_handkerchiefs_selected(self):
-        checkbox = self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_BUTTON).click()
+        checkbox = self.driver.find_element(*self.BLANKET_AND_HANDKERCHIEFS_CHECKBOX)
         return checkbox.is_selected()
 
     def fill_driver_comment(self):
