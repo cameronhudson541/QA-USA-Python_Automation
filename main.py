@@ -3,6 +3,8 @@ import helpers
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from pages import UrbanRoutesPage
+import time
+
 class TestUrbanRoutes:
 
     @classmethod
@@ -13,6 +15,7 @@ class TestUrbanRoutes:
 
         if helpers.is_url_reachable(data.URBAN_ROUTES_URL):
             print("URBAN_ROUTES_URL reachable")
+
         else:
             print("URBAN_ROUTES_URL not reachable")
 
@@ -55,6 +58,7 @@ class TestUrbanRoutes:
         page.call_a_taxi_button()
         page.select_supportive_plan()
         page.click_payment_method()
+        time.sleep(2)
         page.click_add_card()
         page.fill_card_number()
         page.fill_card_code()
