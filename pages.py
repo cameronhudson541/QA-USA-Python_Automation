@@ -74,7 +74,7 @@ class UrbanRoutesPage:
 
     def fill_card_code(self):
         self.driver.find_element(*self.CARD_CODE_FIELD).send_keys(data.CARD_CODE)
-        self.driver.find_element(self.CARD_CODE_FIELD).send_keys(Keys.TAB)
+        self.driver.find_element(*self.CARD_CODE_FIELD).send_keys(Keys.TAB)
 
     def click_link(self):
         self.driver.find_element(*self.CARD_LINK_).click()
