@@ -88,15 +88,11 @@ class TestUrbanRoutes:
     def test_order_2_ice_creams(self):
         self.driver.get(data.URBAN_ROUTES_URL)
         page = UrbanRoutesPage(self.driver)
-
         page.input_from_address(data.ADDRESS_FROM)
         page.input_to_address(data.ADDRESS_TO)
         page.call_a_taxi_button()
         page.select_supportive_plan()
-
-        for _ in range(2):
-            page.order_ice_creams()
-
+        page.order_ice_creams(2)
         count = int(page.get_ice_cream())
         assert count == 2, f"Expected 2 ice creams but got {count}"
 
